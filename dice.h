@@ -23,6 +23,13 @@ void printTable(int col, int row, vector< vector<int> > const &table) {
 //			if print is true prints the contents of dynamic prog table
 int dicePerm(int m, int n, int x, bool print=false) {
 
+	//if x higher than all dice could possibly sum to, 1 or 0 solutions
+	if(m*n <= x)
+		return (m*n == x);
+	//if x <= number of dice, only 1 or 0 possible solutions
+	else if(n >= x)
+		return (n == x);
+
     //creating vector table
 	//rows are number of dice, columns are sum
 	vector<vector<int> > table(n+1, vector<int>(x+1, 0));
