@@ -2,57 +2,47 @@
 #define __dice__
 #include <iostream>
 #include <vector>
+#include <cstdlib>
 using namespace std;
 
 
-//Requires: none
-//Modifies: standard out
-//Effects: print contents of table
-void printTable(int col, int row, vector< vector<int> > const &table) {
-    for (int i = 0; i <= col; i++) {
-      for (int j = 0; j <= row; j++)
-        cout << table[i][j] << " ";
-      cout << endl;
-    } 
-}
+class dice_perm_finder {
+    friend std::ostream;
+    private:
+        
+    //creating vector table
+	//rows are number of dice, columns are sum
+	vector<vector<int> > master_table;
+        int num_ways = 0;
+        int m;
+        int n;
+        int x;
 
+        void print_table(std::ostream &os) const;
+        void print_num_ways(std::ostream &os) const;
 
 //REQUIRES: n>0, x>0
 //Modifies: none
 //Effects: Finds number of ways to get the sum x, from n dice with m sides
 //			if print is true prints the contents of dynamic prog table
-int dicePerm(int m, int n, int x, bool print=false) {
+        void populate_table();
 
-	//if x higher than all dice could possibly sum to, 1 or 0 solutions
-	if(m*n <= x)
-		return (m*n == x);
-	//if x <= number of dice, only 1 or 0 possible solutions
-	else if(n >= x)
-		return (n == x);
+    public:
 
-    //creating vector table
-	//rows are number of dice, columns are sum
-	vector<vector<int> > table(n+1, vector<int>(x+1, 0));
- 
-    //For 1 die only 1 way to form all solutions
-	//stops at whichever is less, m or x
-    for (int i = 1; (i <= m) and (i <= x); i++)
-        table[1][i] = 1;
- 
-    // Each table val is sum of all previous values of previous die
-    // i: num dice
-	// j: sum
-	// k: num sides
-	//starts at second die because first taken care of above
-    for (int i = 2; i <= n; i++)
-        for (int j = 1; j <= x; j++)
-            for (int k = 1; k <= m && k < j; k++)
-                table[i][j] += table[i-1][j-k];
- 
-	if(print)
-		printTable(n, x, table);
+        dice_perm_finder(int m_in, int n_in, int x_in) 
+            : m(m_in), n(n_in), x(x_in) {
+            populate_table();
+        }
 
-    return table[n][x];
-}
+
+        void print(std::ostream &os) const;
+        void set_x();
+        void set_m();
+        void set_n();
+
+};
+
+
+std::ostream& operator<< (std::ostream& os, const dice_perm_finder& c);
 
 #endif
