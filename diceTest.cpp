@@ -17,7 +17,9 @@ int main() {
     dice_perm_finder fiv(4,3,5);
 
     cout << one << two << thr << fou << fiv << endl;
-
+    cout << one << endl;
+    one.set_n(4);
+    cout << one << endl;
     cout << "Done!" << endl;
 
     return 0;

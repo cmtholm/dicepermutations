@@ -77,7 +77,49 @@ void dice_perm_finder::populate_table() {
   master_table = table;
 }
 
+void dice_perm_finder::set_x(int x_in) {
+    
+    //if the sum is differnt must always repopulate the table
+    if(x != x_in) {
+        x = x_in;
+        populate_table();
+    }
 
+}
+
+void dice_perm_finder::set_m(int m_in) {
+    
+    //if the number of sides is different must repopulate table
+    if(m != m_in) {
+        m = m_in;
+        populate_table();
+    }
+}
+
+void dice_perm_finder::set_n(int n_in) {
+    //if we're using less dice we already calculated for more dice
+    if(n > n_in) {
+        n = n_in;
+    }
+    //if using more dice can extend from previous last spot
+    else if(n < n_in) {
+        
+        vector<vector<int> > table(n_in+1, vector<int>(x+1, 0));
+        for(int i = 1; i <= n; ++i) {
+            for(int j = 1; j <=x; ++j) {
+                table[i][j] = master_table[i][j];
+            }
+        }
+        for(int i = n+1; i <= n_in; i++) 
+            for (int j = 1; j <= x; j++)
+                for (int k = 1; k <= m && k < j; k++)
+                    table[i][j] += table[i-1][j-k];
+
+        n = n_in;
+        master_table = table;
+    }
+
+}
 
 std::ostream& operator<< (std::ostream& os, const dice_perm_finder& c) {
 

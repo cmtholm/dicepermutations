@@ -13,7 +13,6 @@ private:
   //creating vector table
   //rows are number of dice, columns are sum
   vector<vector<int> > master_table;
-  int num_ways = 0;
   int m;
   int n;
   int x;
@@ -36,9 +35,9 @@ public:
 
 
   void print(std::ostream &os) const;
-  void set_x();
-  void set_m();
-  void set_n();
+  void set_x(int);
+  void set_m(int);
+  void set_n(int);
 
 };
 
