@@ -15,6 +15,7 @@ void dice_perm_finder::print( ostream &os) const{
   os << endl << endl;
 }
 
+//Print the table to the output stream
 void dice_perm_finder::print_table(ostream &os) const {
 
   os << "\tTable of:\n\t (num_dice, sum) = number_of_ways\n\tfor dice with " << m << " sides." << endl; 
@@ -51,11 +52,11 @@ void dice_perm_finder::populate_table() {
 
   vector<vector<int> > table(n+1, vector<int>(x+1, 0));
 
-  //if x higher than all dice could possibly sum to, 1 or 0 solutions
-  if(m*n <= x)
+  //If x higher than all dice could possibly sum to, 1 or 0 solutions
+  if (m*n <= x)
     table[n][x] = (m*n == x) ;
   //if x <= number of dice, only 1 or 0 possible solutions
-  else if(n >= x)
+  else if (n >= x)
     table[n][x] = (n == x);
 
  
@@ -80,17 +81,17 @@ void dice_perm_finder::populate_table() {
 void dice_perm_finder::set_x(int x_in) {
     
     //if the sum is differnt must always repopulate the table
-    if(x != x_in) {
+    if (x != x_in) {
         x = x_in;
         populate_table();
     }
 
 }
-
+ 
 void dice_perm_finder::set_m(int m_in) {
     
     //if the number of sides is different must repopulate table
-    if(m != m_in) {
+    if (m != m_in) {
         m = m_in;
         populate_table();
     }
@@ -98,11 +99,11 @@ void dice_perm_finder::set_m(int m_in) {
 
 void dice_perm_finder::set_n(int n_in) {
     //if we're using less dice we already calculated for more dice
-    if(n > n_in) {
+    if (n > n_in) {
         n = n_in;
     }
     //if using more dice can extend from previous last spot
-    else if(n < n_in) {
+    else if (n < n_in) {
         
         vector<vector<int> > table(n_in+1, vector<int>(x+1, 0));
         for(int i = 1; i <= n; ++i) {
